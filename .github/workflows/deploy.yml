@@ -38,12 +38,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to Server 1
+      - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
+          SOURCE: "dist/"
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
+          SCRIPT_AFTER: |
+            node ${{ secrets.TARGET_DIR }}/main
 
     
