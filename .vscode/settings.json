@@ -1,5 +1,6 @@
 {
     "yaml.schemas": {
         "https://json.schemastore.org/github-workflow.json": "file:///c%3A/Users/lucas/Documents/GitHub/Projeto%20RPG%20Board/rpg-board-project-backend/.github/workflows/deploy.yml"
-    }
+    },
+    "typescript.preferences.importModuleSpecifier": "relative" 
 }

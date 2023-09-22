@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Setup PKG
+        run: npm i -g pkg
+
       - name: chmod
         run: chmod -R +x ./.github
 
@@ -31,15 +34,18 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Build
+        run: pkg ./package.json
+
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
-          SOURCE: "dist/"
+          SOURCE: "dist/rpg-board-project-backend"
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
           SCRIPT_AFTER: |
-            node ${{ secrets.TARGET_DIR }}/main
+            ${{ secrets.TARGET_DIR }}/rpg-board-project-backend
 
     
