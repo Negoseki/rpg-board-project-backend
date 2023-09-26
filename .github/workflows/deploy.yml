@@ -44,12 +44,12 @@ jobs:
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
-          SOURCE: "dist/rpg-board-project-backend"
+          SOURCE: "dist/rpg-board-project-backend ./.env"
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
           SCRIPT_AFTER: |
-            ${{ secrets.TARGET_DIR }}/rpg-board-project-backend
+            pm2 start ${{ secrets.TARGET_DIR }}/rpg-board-project-backend
 
     
