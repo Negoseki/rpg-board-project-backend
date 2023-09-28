@@ -10,6 +10,7 @@ export class BoardController {
 
   @Get(':id')
   getBoard(@Param('id') id: string): Promise<Board> {
+    console.log({ id });
     return this.boardService.findOne(id);
   }
 
@@ -23,7 +24,7 @@ export class BoardController {
     @Param('id') id: string,
     @Param('idFigure') idFigure: string,
     @Body() body: UpdateBoardFigureDto,
-  ) {
+  ): Promise<Board> {
     return this.boardService.updateBoardFigure(id, idFigure, body);
   }
 }

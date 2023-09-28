@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
-import { ApiKeyGuard } from './guards/api-key/api-key.guard';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
 import { LoggingMiddleware } from './middleware/logging/logging.middleware';
 
 @Module({
@@ -9,7 +9,7 @@ import { LoggingMiddleware } from './middleware/logging/logging.middleware';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: ApiKeyGuard,
+      useClass: JwtAuthGuard,
     },
   ],
 })
