@@ -9,6 +9,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     super();
   }
 
+  handleRequest(
+    ...args: Parameters<
+      InstanceType<ReturnType<typeof AuthGuard>>['handleRequest']
+    >
+  ) {
+    console.log(args);
+    return super.handleRequest(...args);
+  }
+
   canActivate(context: ExecutionContext) {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -17,6 +26,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (isPublic) {
       return true;
     }
+
     return super.canActivate(context);
   }
 }

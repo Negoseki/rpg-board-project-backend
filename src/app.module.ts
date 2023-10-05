@@ -12,9 +12,8 @@ import { CommonModule } from './common/common.module';
       validationSchema: Joi.object({
         MONGODB_HOST: Joi.required(),
         API_KEY: Joi.required(),
-        JWT_SECRET: Joi.required(),
-        JWT_EXPIRES_IN: Joi.required(),
-        PASSWORD_SALT_ROUNDS: Joi.required(),
+        AUTH0_ISSUER_URL: Joi.required(),
+        AUTH0_AUDIENCE: Joi.required(),
       }),
       isGlobal: true,
     }),
@@ -25,8 +24,8 @@ import { CommonModule } from './common/common.module';
         uri: config.get<string>('MONGODB_HOST'),
       }),
     }),
-    CommonModule,
     AuthModule,
+    CommonModule,
     BoardModule,
   ],
 })
