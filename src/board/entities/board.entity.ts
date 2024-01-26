@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { BoardUser } from './board-user.entity';
 import { Figure } from './figure.entity';
 
 @Schema()
@@ -9,6 +10,9 @@ export class Board extends Document {
 
   @Prop([Figure])
   figures: Figure[];
+
+  @Prop([BoardUser])
+  users: BoardUser[];
 
   id: string;
 }

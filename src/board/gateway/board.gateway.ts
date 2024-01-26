@@ -9,9 +9,9 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { CreateBoardFigureDto } from '../dto/create-board-figure.dto';
 import { UpdateBoardFigureDto } from '../dto/update-board-figure.dto';
 import { BoardService } from '../service/board.service';
-import { CreateBoardFigureDto } from '../dto/create-board-figure.dto';
 
 @WebSocketGateway({ namespace: '/board', cors: true })
 export class BoardGateway
@@ -24,18 +24,19 @@ export class BoardGateway
 
   @SubscribeMessage('board:updateFigure')
   async handleUpdateFigure(
-    @MessageBody() data: { id: string; figure: UpdateBoardFigureDto },
+    @MessageBody() data: UpdateBoardFigureDto,
     @ConnectedSocket() client: Socket,
   ) {
     console.log('Socket received board:updateFigure => ', data);
     const { id: idBoard } = client.handshake.query;
-    const { id: idFigure, figure } = data;
+    console.log({ data });
     const boardData = await this.boardService.updateBoardFigure(
       idBoard as string,
-      idFigure,
-      figure,
+      data.id,
+      data,
     );
-    const newFigure = boardData.toJSON().figures.find((f) => f.id === idFigure);
+    const newFigure = boardData.figures.find((f) => f.id === data.id);
+
     if (newFigure) {
       this.server.to(idBoard).emit('board:updateFigure', newFigure);
     }
@@ -43,18 +44,18 @@ export class BoardGateway
 
   @SubscribeMessage('board:createFigure')
   async handleCreateFigure(
-    @MessageBody() data: { figure: CreateBoardFigureDto },
+    @MessageBody() data: CreateBoardFigureDto,
     @ConnectedSocket() client: Socket,
   ) {
     console.log('Socket received board:createFigure => ', data);
+
     const { id: idBoard } = client.handshake.query;
-    const { figure } = data;
+
     const boardData = await this.boardService.createBoardFigure(
       idBoard as string,
-      figure,
+      data,
     );
-    console.log(boardData);
-    const newFigure = boardData.toJSON().figures[boardData.figures.length - 1];
+    const newFigure = boardData.figures[boardData.figures.length - 1];
     if (newFigure) {
       this.server.to(idBoard).emit('board:updateFigure', newFigure);
     }

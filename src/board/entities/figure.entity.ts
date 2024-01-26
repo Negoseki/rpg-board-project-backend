@@ -1,11 +1,11 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Position } from './position.entity';
 
 @Schema()
 export class Figure extends Document {
   @Prop()
-  imageUrl: string;
+  imageKey: string;
 
   @Prop()
   name: string;
@@ -18,16 +18,3 @@ export class Figure extends Document {
 
   id: string;
 }
-
-const FigureSchema = SchemaFactory.createForClass(Figure);
-FigureSchema.virtual('id').get(function (this: Figure) {
-  return this._id.toHexString();
-});
-FigureSchema.set('toJSON', {
-  virtuals: true,
-  transform: (_, ret) => {
-    delete ret._id;
-  },
-});
-
-export { FigureSchema };
