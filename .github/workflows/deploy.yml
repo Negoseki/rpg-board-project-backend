@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Copy sharp runner
-        run: cp -r ./node_modules/sharp/build/Release ./sharp/build/Release
+        run: mkdir -p ./sharp/build/Release && cp -r ./node_modules/sharp/build/Release ./sharp/build/Release
 
       - name: 'Create env file'
         run: |
