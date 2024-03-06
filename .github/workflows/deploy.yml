@@ -50,6 +50,6 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
           SCRIPT_AFTER: |
-            pm2 start ${{ secrets.TARGET_DIR }}/rpg-board-project-backend
+            pm2 restart ${{ secrets.TARGET_DIR }}/rpg-board-project-backend
 
     
